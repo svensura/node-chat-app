@@ -7,6 +7,7 @@ const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
 
 const {generateMessage, generateLocationMessage} = require('./utils/message')
+const {isRealString} = require('./utils/validation')
 
 var app = express();
 var server = http.createServer(app);
@@ -46,6 +47,16 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('User was disconnected');
   });
+
+  socket.on('join', (params, callback) => {
+    console.log('User joined');
+    if (!isRealString(params.name) || !isRealString(params.room)) {
+      callback('Name and room name are required.')
+    } else {
+      callback();
+    }
+  });
+
 });
 
 server.listen(port, () => {
