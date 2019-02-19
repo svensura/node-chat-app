@@ -1,4 +1,6 @@
+
 var socket = io();
+
 function scrollToBottom () {
 
   // Selectors
@@ -75,7 +77,7 @@ socket.on('newLocationMessage', function (message) {
 jQuery('#message-form').on('submit', function (e) {
     e.preventDefault();
     socket.emit('createMessage', {
-    from: 'User',
+    from: socket.id,
     text: jQuery('[name=message]').val()
   }, function () {
     jQuery('[name=message]').val('');
